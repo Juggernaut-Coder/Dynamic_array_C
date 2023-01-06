@@ -135,10 +135,14 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
  * Usage: API(&vec, ...)
 */
 /* API - init and free */
-#define vec_init(v, capacity)                         \
+#define vec_init(v, capacity) ( __extension__ ({      \
     vcap(v) = ( capacity );                           \
     vlen(v) = (0);                                    \
-    vdat(v) = malloc( (capacity) * vdsize(v) )
+    vdat(v) = malloc( (capacity) * vdsize(v) )        \
+    int (ret) = (OK);                                 \
+    if(!vdat(v)) (ret) = (ERR);                       \
+    (ret);                                            \
+}))
 
 #define vec_free(v)                                   \
     free( vdat(v) );                                  \
@@ -244,10 +248,24 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
     qsort( vdat(v), vlen(v), vdsize(v), (sort_fn) )
 
 /* Vector Clone */
-#define vec_clone(dest, src)                                                \
-    vec_init( (dest) , (vlen(src)) );                                       \
-    memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );           \
-    vlen(dest) = vlen(src);                                                 \
+#define vec_clone(dest, src) /* clones on an uninitialized vector variabler */ ( __extension__ ({ \
+    int (ret) = vec_init( (dest) , (vlen(src)) )                                                  \
+    if(ret) {                                                                                     \
+        memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );                             \
+        vlen(dest) = vlen(src);                                                                   \
+    }                                                                                             \
+}))
+
+#define vec_wipe_clone(dest, src) ( __extension__ ({ /* clones on an initialized vector variabler */   \
+    int (ret) = (OK);                                                                                  \
+    if(vcap(dest)<vlen(src)) ret = _vec_resize_n(_unwrap(dest),vlen(src));                             \
+    if(ret) {                                                                                          \
+        memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );                                  \
+        vlen(dest) = vlen(src);                                                                        \
+    }                                                                                                  \
+    (ret);
+}))  
+
 /** 
  * Some for loop iteration schemes are provided
  * Safety and bound checking is on the USER. For example,  
