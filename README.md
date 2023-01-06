@@ -1,2 +1,2 @@
 # Dynamic_array_C
-A simple dynamic array implementation
+A header only simple dynamic array implementation. Include vec_lib.h to use
