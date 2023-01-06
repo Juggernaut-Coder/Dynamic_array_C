@@ -13,7 +13,7 @@ int main(void) {
     
     vec_rm(&v,45);
     i64_vec v2;
-    vec_clone(&v, &v2);
+    
 
     if(vlen(&v2)>0) vec_for_each(&v2)
         printf("%ld ",elem);
@@ -21,8 +21,7 @@ int main(void) {
 
     printf("ld= %ld\n",vlen(&v));
 
-
-
+    //vec_free(&v2);
     vec_free(&v);   
     return 0;
 }
