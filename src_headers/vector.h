@@ -244,6 +244,10 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
     qsort( vdat(v), vlen(v), vdsize(v), (sort_fn) )
 
 /* Vector Clone */
+#define vec_clone(v, vcpy)              \
+    vec_init( (vcpy) , vlen(v) )        \
+    memcpy(*vcpy, *v, vsize(v))         \
+    vcap(vcpy) = vlen(v)            
 
 /** 
  * Some for loop iteration schemes are provided
