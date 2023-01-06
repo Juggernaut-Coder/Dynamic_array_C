@@ -24,7 +24,7 @@
 #define vcap(v)   ( (v)->cap )  /* Unpacks vector capacity */
 #define vdat(v)   ( (v)->data ) /* Unpacks vector data */
 #define vsize(v)  ( sizeof(*(v)) ) /* Gets size of the vector */
-#define vdsize(v) ( sizeof( (*((v)->data)) ) ) /* Gets size of the vector data */
+#define vdsize(v) ( sizeof( *(vdat(v)) ) ) /* Gets size of the vector data */
 #define _unwrap(v) \
     ( ( void ** )( &(vdat(v)) ) ), ( &(vlen(v)) ), ( &(vcap(v)) ), ( vdsize(v) ) /* Unpacks the entire vector */
 
@@ -244,10 +244,10 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
     qsort( vdat(v), vlen(v), vdsize(v), (sort_fn) )
 
 /* Vector Clone */
-#define vec_clone(v, vcpy)                     \
-    vec_init( (vcpy) , vcap(v) );              \
-    memcpy( (vcpy), (v), vsize(v) );                      
-
+#define vec_clone(dest, src)                                                \
+    vec_init( (dest) , (vlen(src)) );                                       \
+    memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );           \
+    vlen(dest) = vlen(src);                                                 \
 /** 
  * Some for loop iteration schemes are provided
  * Safety and bound checking is on the USER. For example,  
