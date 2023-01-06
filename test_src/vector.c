@@ -1,4 +1,4 @@
-#include "vec_lib.h"
+#include "../src_headers/vec_lib.h"
 #include <stdio.h>
 
 int main(void) {
@@ -12,8 +12,10 @@ int main(void) {
     };
     
     vec_rm(&v,45);
+    i64_vec v2;
+    vec_clone(&v, &v2);
 
-    if(vlen(&v)>0) vec_for_each(&v)
+    if(vlen(&v2)>0) vec_for_each(&v2)
         printf("%ld ",elem);
     END_vec_for
 
