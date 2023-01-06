@@ -254,11 +254,11 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
         memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );                             \
         vlen(dest) = vlen(src);                                                                   \
     }                                                                                             \
+    (ret);
 }))
 
 #define vec_wipe_clone(dest, src) ( __extension__ ({ /* clones on an initialized vector variabler */   \
-    int (ret) = (OK);                                                                                  \
-    if(vcap(dest)<vlen(src)) ret = _vec_resize_n(_unwrap(dest),vlen(src));                             \
+    int (ret) = _vec_expand_n(_unwrap(dest),vlen(src));                                                \
     if(ret) {                                                                                          \
         memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );                                  \
         vlen(dest) = vlen(src);                                                                        \
