@@ -1,6 +1,6 @@
 #pragma once /* VECTOR LIBRARY */
 #include "vector.h"
-#include "../../Macros/custom_types/custom_types.h"
+#include "custom_types.h"
 
 /* Vector result handler */
 typedef int vec_bool;
