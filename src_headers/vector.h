@@ -254,7 +254,7 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
         memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );                             \
         vlen(dest) = vlen(src);                                                                   \
     }                                                                                             \
-    (ret);
+    (ret);                                                                                        \
 }))
 
 #define vec_wipe_clone(dest, src) ( __extension__ ({ /* clones on an initialized vector variabler */   \
@@ -263,7 +263,7 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
         memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );                                  \
         vlen(dest) = vlen(src);                                                                        \
     }                                                                                                  \
-    (ret);
+    (ret);                                                                                             \
 }))  
 
 /** 
