@@ -167,7 +167,7 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
 #define vec_pop(v)                                    \
     vdat(v)[(--vlen(v))]   /* Usage data_elem_type data_elem = vec_pop(&vec) */
 
-#define vec_pop_s(v)                                  \
+#define vec_pop_ptr_s(v)                              \
     ( ( vlen(v) > 0 ) ? (&vec_pop(v)) : (NULL) ) /* data_elem_type &data_elem = vec_pop_s(v) */      
 
 /* API - Vector truncate  */
@@ -248,7 +248,7 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
     qsort( vdat(v), vlen(v), vdsize(v), (sort_fn) )
 
 /* Vector Clone */
-#define vec_clone(dest, src) /* clones on an uninitialized vector variabler */ ( __extension__ ({ \
+#define vec_clone(dest, src) /* clones on an uninitialized vector variable */ ( __extension__ ({ \
     int (ret) = vec_init( (dest) , (vlen(src)) )                                                  \
     if(ret) {                                                                                     \
         memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );                             \
@@ -257,7 +257,7 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
     (ret);                                                                                        \
 }))
 
-#define vec_wipe_clone(dest, src) ( __extension__ ({ /* clones on an initialized vector variabler */   \
+#define vec_wipe_clone(dest, src) ( __extension__ ({ /* clones on an initialized vector variable */   \
     int (ret) = _vec_expand_n(_unwrap(dest),vlen(src));                                                \
     if(ret) {                                                                                          \
         memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );                                  \
