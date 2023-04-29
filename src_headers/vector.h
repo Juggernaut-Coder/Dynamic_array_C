@@ -248,8 +248,8 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
     qsort( vdat(v), vlen(v), vdsize(v), (sort_fn) )
 
 /* Vector Clone */
-#define vec_clone(dest, src) /* clones on an uninitialized vector variable */ ( __extension__ ({ \
-    int (ret) = vec_init( (dest) , (vlen(src)) )                                                  \
+#define vec_clone(dest, src) /* clones on an uninitialized vector variable */ ( __extension__ ({  \
+    int (ret) = vec_init( (dest) , (vlen(src)) );                                                 \
     if(ret) {                                                                                     \
         memcpy( vdat(dest), vdat(src), ((vlen(src)) * vdsize(src)) );                             \
         vlen(dest) = vlen(src);                                                                   \
