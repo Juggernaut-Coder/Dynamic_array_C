@@ -138,7 +138,7 @@ static inline int _vec_insert(void **data, size_t *len, size_t *cap, size_t mems
 #define vec_init(v, capacity) ( __extension__ ({      \
     vcap(v) = ( capacity );                           \
     vlen(v) = (0);                                    \
-    vdat(v) = malloc( (capacity) * vdsize(v) )        \
+    vdat(v) = malloc( (capacity) * vdsize(v) );       \
     int (ret) = (OK);                                 \
     if(!vdat(v)) (ret) = (ERR);                       \
     (ret);                                            \
